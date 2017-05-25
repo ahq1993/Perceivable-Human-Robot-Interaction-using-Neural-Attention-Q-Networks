@@ -1,7 +1,7 @@
 require 'torch'
 require 'image'
 require 'paths'
-r_len=8 --recording time in sec
+r_len=8 --number of input frames
 raw_frame_height=320   -- 640 --- height and width of captured frame  -- 320
 raw_frame_width=240    -- 480 --- height and width of captured frame   -- 240
 proc_frame_size=198 --
@@ -20,7 +20,7 @@ function pre_process(step)
 	for i=1,r_len do
 			local filename=dirname_rgb..'/image_'..step..'_'..i..'.png'
 			local filename2=dirname_dep..'/depth_'..step..'_'..i..'.png'
-    		images[i] =image.load(filename)
+    		        images[i] =image.load(filename)
 			depths[i] =image.load(filename2)
 			
 	end
@@ -70,7 +70,6 @@ function send_data_to_pepper(data)
 		end
 		break
 	end 
---- recieve data as well --reward   
 	print("Connected with the server")
 	client:close()
 	return 0
@@ -81,23 +80,16 @@ function perform_action(action,px,py)
    
 	---out to pepper and get new state,reward, terminal
 	--PERFORM action
-	
+	-- r=reward, h=human_detected(this variable is used in the current implementation)
 	local r,h,term
 	print ('px='..px)
 	print ('py='..py)
 	data=action..':'..px..':'..py
-	r,h=send_data_to_pepper(data)
-	--read camera	
-	--while r==2 do end
-		
+	r,h=send_data_to_pepper(data)		
 	local s,d=pre_process(step)
 	step=step+1
 	term=false
-	print("reward")
-	print(r)
    return s,d,r,h,term
 end 
-
----- send data to pepper #python
 
 
