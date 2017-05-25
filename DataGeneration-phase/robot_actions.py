@@ -29,33 +29,27 @@ def wait(opt,step):
 	times=[[0.7],[0.7]]
 
 	if opt==1:
-		print 'I am in 1'
 		motion.angleInterpolation(names,[0.0,-0.16],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
 		
 	elif opt==2:
-		print 'I am in 2'
 		motion.angleInterpolation(names,[0.2,-0.1],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
 	elif opt==3:
-		print 'I am in 3'
 		motion.angleInterpolation(names,[0.2,-0.1],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
 	elif opt==4:
-		print 'I am in 4'
 		motion.angleInterpolation(names,[-0.4,-0.1],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
 	elif opt==5:
-		print 'I am in 5'
 		motion.angleInterpolation(names,[0.0,-0.26179],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
 	elif opt==6:
-		print 'I am in 6'
 		motion.angleInterpolation(names,[0.0,-0.26179],times,True)
 		time.sleep(3)
 		motion.setAngles(names,[0.0,-0.26179],0.2)
@@ -82,7 +76,6 @@ def hello(step):
 
 	names.append("LShoulderPitch")
 	times.append([1, 2.5])
-	#keys.append([-0.907571, -0.907571, 1.30202])
 	keys.append([-0.707571, -0.707571])
 
 	names.append("LShoulderRoll")
@@ -104,9 +97,11 @@ def hello(step):
 	motion.setAngles(names2,angles,0.3)
 	
 	return str(0)
-	    
+
     
 
+
+	
 def shake_hand(step):
 	names = list()
 	times = list()
