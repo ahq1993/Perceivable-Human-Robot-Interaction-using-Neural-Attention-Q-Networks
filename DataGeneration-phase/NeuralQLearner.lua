@@ -36,7 +36,7 @@ function nql:__init(args)
 	 self.dqnB=torch.load('results/soft/dqnB.net')
 		
 	 
-	 self.prev_c = torch.zeros(1, 256)
+    self.prev_c = torch.zeros(1, 256)
     self.prev_h = self.prev_c:clone()
 
     self.prev_c_2 = torch.zeros(1, 256)
@@ -44,7 +44,7 @@ function nql:__init(args)
     
     self.numSteps = 0 -- Number of perceived states.
     self.lastState = nil
-	 self.lastDepth = nil
+    self.lastDepth = nil
     self.lastAction = nil
     self.lastTerminal=nil
     
@@ -59,10 +59,9 @@ function nql:predict(rgb)
     self.prev_h = self.prev_h:float()
 
     local attention, observation = unpack(self.cnnA:forward{self.prev_h, input})
-   local next_c, next_h = unpack(self.lstmA:forward{observation, self.prev_c,self.prev_h})
+    local next_c, next_h = unpack(self.lstmA:forward{observation, self.prev_c,self.prev_h})
     self.prev_c:copy(next_c)
     self.prev_h:copy(next_h)
-    -- DQN
     local prediction = self.dqnA:forward(next_h)
 
     return attention, prediction   
@@ -79,7 +78,6 @@ function nql:predict2(dep)
    local next_c, next_h = unpack(self.lstmB:forward{observation, self.prev_c_2,self.prev_h_2})
     self.prev_c_2:copy(next_c)
     self.prev_h_2:copy(next_h)
-    -- DQN
     local prediction = self.dqnB:forward(next_h)
 
     return attention, prediction       
@@ -90,7 +88,7 @@ function nql:perceive(reward, state, depth, human, terminal, testing, numSteps, 
   	
     
     local curState = state
-	 local curDepth = depth  
+    local curDepth = depth  
     local px=-1
     local py=-1
     local actionIndex = 1
@@ -126,8 +124,6 @@ function nql:eGreedy(state,depth, numSteps , steps, testing_ep)
                 math.max(0, numSteps - self.learn_start))/self.ep_endt))
 	 ep2=1
     -- Epsilon greedy
-	 print("self.ep")
-	 print(self.ep)
 	 if torch.uniform() < self.ep then
 		  local px=-1
 		  local py=-1
@@ -140,16 +136,16 @@ function nql:eGreedy(state,depth, numSteps , steps, testing_ep)
 		  local action= tonumber(string.sub(self.seq,self.iter,self.iter))
 		  self.iter=self.iter+1
 		  return action,px,py
-    else
+         else
 		  self.iter=self.iter+1
-        return self:greedy(state,depth)
-    end
+                  return self:greedy(state,depth)
+         end
 end
 
 
 function nql:greedy(state,depth) 
 	 print("greedy")
-    state = state:float()
+         state = state:float()
 	 depth=depth:float()
 	 local win=nil
 
@@ -166,7 +162,7 @@ function nql:greedy(state,depth)
 	 upsample:forward(empty)
 
 	 local q_all={}
-    local q2_all={}	
+         local q2_all={}	
 	 local Yattention
 	 for m=1,8 do
 
@@ -197,7 +193,7 @@ function nql:greedy(state,depth)
 	end
 	px=px
 	py=py    
-   local ts=q_all[8][1][1]+q_all[8][1][2]+q_all[8][1][3]+q_all[8][1][4]
+        local ts=q_all[8][1][1]+q_all[8][1][2]+q_all[8][1][3]+q_all[8][1][4]
 	local td=q2_all[8][1][1]+q2_all[8][1][2]+q2_all[8][1][3]+q2_all[8][1][4]
 	local q_fus={}	
 	for h=1,4 do
